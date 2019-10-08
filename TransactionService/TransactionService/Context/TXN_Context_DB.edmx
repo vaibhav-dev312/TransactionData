@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TXN_DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="Stp_GetTransactionsByCurrency" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="currencyCode" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="Stp_GetTransactionsByDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="transactionFromDate" Type="datetime" Mode="In" />
+          <Parameter Name="transactionToDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="Stp_GetTransactionsByStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="transactionStatus" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <EntityContainer Name="TXN_DatabaseModelStoreContainer" />
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TXN_DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TXN_DatabaseEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="Stp_GetTransactionsByCurrency" ReturnType="Collection(TXN_DatabaseModel.Stp_GetTransactionsByCurrency_Result)">
+            <Parameter Name="currencyCode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Stp_GetTransactionsByDate" ReturnType="Collection(TXN_DatabaseModel.Stp_GetTransactionsByDate_Result)">
+            <Parameter Name="transactionFromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="transactionToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Stp_GetTransactionsByStatus" ReturnType="Collection(TXN_DatabaseModel.Stp_GetTransactionsByStatus_Result)">
+            <Parameter Name="transactionStatus" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="Stp_GetTransactionsByCurrency_Result">
+          <Property Type="String" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Payment" Nullable="false" MaxLength="45" />
+          <Property Type="String" Name="Status" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Stp_GetTransactionsByDate_Result">
+          <Property Type="String" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Payment" Nullable="false" MaxLength="45" />
+          <Property Type="String" Name="Status" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Stp_GetTransactionsByStatus_Result">
+          <Property Type="String" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Payment" Nullable="false" MaxLength="45" />
+          <Property Type="String" Name="Status" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TXN_DatabaseModelStoreContainer" CdmEntityContainer="TXN_DatabaseEntities" >
+          <FunctionImportMapping FunctionImportName="Stp_GetTransactionsByCurrency" FunctionName="TXN_DatabaseModel.Store.Stp_GetTransactionsByCurrency">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TXN_DatabaseModel.Stp_GetTransactionsByCurrency_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Payment" ColumnName="Payment" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Stp_GetTransactionsByDate" FunctionName="TXN_DatabaseModel.Store.Stp_GetTransactionsByDate">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TXN_DatabaseModel.Stp_GetTransactionsByDate_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Payment" ColumnName="Payment" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Stp_GetTransactionsByStatus" FunctionName="TXN_DatabaseModel.Store.Stp_GetTransactionsByStatus">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TXN_DatabaseModel.Stp_GetTransactionsByStatus_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Payment" ColumnName="Payment" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
