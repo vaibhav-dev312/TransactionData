@@ -17,8 +17,14 @@
         public const string CurrencyCode = "CurrencyCode";
         public const string TransactionDate = "TransactionDate";
         public const string Status = "Status";
+        public const string PaymentDetails = "PaymentDetails";  
         #endregion
 
         public const string InvalidFileMsg = "Invalid file";
+
+        #region XML data
+        public const string PreantTransactionNode = "/Transactions";
+        public const string ChildTransactionNode = "/Transactions/Transaction";
+        #endregion
     }
 }

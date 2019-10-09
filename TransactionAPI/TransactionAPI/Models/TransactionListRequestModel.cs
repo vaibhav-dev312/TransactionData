@@ -3,7 +3,7 @@ using System;
 
 namespace TransactionAPI.Models
 {
-    public class TransactionListModel
+    public class TransactionListRequestModel
     {
         public DateTime TransactionDateFrom { get; set; }
         public DateTime TransactionDateTo { get; set; }

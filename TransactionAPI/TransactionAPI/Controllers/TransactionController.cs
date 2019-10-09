@@ -4,6 +4,8 @@ using TransactionAPI.Models;
 using TransactionService.Repository;
 using TransactionAPI.Common;
 using System.Data;
+using System.Xml;
+using log4net;
 
 namespace TransactionAPI.Controllers
 {
@@ -11,16 +13,14 @@ namespace TransactionAPI.Controllers
     public class TransactionController : ApiController
     {
         private readonly ITransactionRepository TransactionRepository;
+        ILog logger;
 
-        public TransactionController(ITransactionRepository _TransactionRepository) 
+        public TransactionController(ITransactionRepository _TransactionRepository)
         {
+            logger =  LogManager.GetLogger(typeof(TransactionController));
             this.TransactionRepository = _TransactionRepository;
         }
 
-        public TransactionController() : base()
-        {
-            this.TransactionRepository = new TransactionRepository();
-        }
 
         /// <summary>
         /// Get the transation list
@@ -28,11 +28,12 @@ namespace TransactionAPI.Controllers
         /// <param name="request"></param>
         [HttpPost]
         [Route(Constants.GetTransactionList)]
-        public IHttpActionResult GetTransactionsList([FromBody] TransactionListModel transactionListModel)
+        public IHttpActionResult GetTransactionsList([FromBody] TransactionListRequestModel transactionListModel)
         {
             try
             {
-                return Ok(this.TransactionRepository.GetTransactionList(transactionListModel.TransactionCurrency));
+                var response = this.TransactionRepository.GetTransactionList(transactionListModel.TransactionDateFrom, transactionListModel.TransactionDateTo, transactionListModel.TransactionStatus, transactionListModel.TransactionCurrency);
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -52,18 +53,37 @@ namespace TransactionAPI.Controllers
         {
             try
             {
-                // Read CSV data 
-                string csvData =CSVHelper.ReadCSVFile(request.TransactionFile);
-                // Create data tabel from CSV file data
-                if(string.IsNullOrEmpty(csvData))
-                    return BadRequest(Constants.InvalidFileMsg);
+                logger.Error(request);
+                DataTable table = new DataTable();
+                table.Columns.Add(Constants.TransactionIdentificator, typeof(string));
+                table.Columns.Add(Constants.Amount, typeof(decimal));
+                table.Columns.Add(Constants.CurrencyCode, typeof(string));
+                table.Columns.Add(Constants.TransactionDate, typeof(DateTime));
+                table.Columns.Add(Constants.Status, typeof(string));
 
-                DataTable table = CSVHelper.CreateDataTable(csvData);
+                if (!string.IsNullOrEmpty(request.FileName) && request.FileName.Contains(".csv"))
+                {
+                    //Read CSV data
+                    string csvData = CSVHelper.ReadCSVFile(request.TransactionFile);
+                    //Create data tabel from CSV file data
+                    if (string.IsNullOrEmpty(csvData))
+                        return BadRequest(Constants.InvalidFileMsg);
+
+                    table = CSVHelper.CreateDataTable(csvData);
+                }
+                else
+                {
+                    XmlDocument xmlData = XMLHelper.ReadXMLData(request.TransactionFile);
+                    if (xmlData == null)
+                        return BadRequest(Constants.InvalidFileMsg);
+
+                    table = XMLHelper.CreateDataTable(table,xmlData);
+                }
+
                 if (table != null)
                     return Ok(this.TransactionRepository.UploadTransactions(table));
                 else
                     return BadRequest(Constants.InvalidFileMsg);
-
             }
             catch (Exception ex)
             {
