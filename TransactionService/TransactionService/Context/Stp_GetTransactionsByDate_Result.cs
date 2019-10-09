@@ -14,7 +14,8 @@ namespace TransactionService.Context
     public partial class Stp_GetTransactionsByDate_Result
     {
         public string ID { get; set; }
-        public string Payment { get; set; }
         public string Status { get; set; }
+        public decimal Amount { get; set; }
+        public string CurrencyCode { get; set; }
     }
 }

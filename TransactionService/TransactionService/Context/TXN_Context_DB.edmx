@@ -35,18 +35,21 @@
         </EntityContainer>
         <ComplexType Name="Stp_GetTransactionsByCurrency_Result">
           <Property Type="String" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Payment" Nullable="false" MaxLength="45" />
           <Property Type="String" Name="Status" Nullable="true" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="16" Scale="2" />
+          <Property Type="String" Name="CurrencyCode" Nullable="false" MaxLength="3" />
         </ComplexType>
         <ComplexType Name="Stp_GetTransactionsByDate_Result">
           <Property Type="String" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Payment" Nullable="false" MaxLength="45" />
           <Property Type="String" Name="Status" Nullable="true" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="16" Scale="2" />
+          <Property Type="String" Name="CurrencyCode" Nullable="false" MaxLength="3" />
         </ComplexType>
         <ComplexType Name="Stp_GetTransactionsByStatus_Result">
           <Property Type="String" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Payment" Nullable="false" MaxLength="45" />
           <Property Type="String" Name="Status" Nullable="true" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="16" Scale="2" />
+          <Property Type="String" Name="CurrencyCode" Nullable="false" MaxLength="3" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -58,8 +61,9 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="TXN_DatabaseModel.Stp_GetTransactionsByCurrency_Result">
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Payment" ColumnName="Payment" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -67,8 +71,9 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="TXN_DatabaseModel.Stp_GetTransactionsByDate_Result">
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Payment" ColumnName="Payment" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -76,8 +81,9 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="TXN_DatabaseModel.Stp_GetTransactionsByStatus_Result">
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Payment" ColumnName="Payment" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
