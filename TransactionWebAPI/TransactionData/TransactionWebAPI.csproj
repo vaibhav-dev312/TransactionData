@@ -168,9 +168,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\TransactionByCurrencyModel.cs" />
-    <Compile Include="Models\TransactionByDateModel.cs" />
-    <Compile Include="Models\TransactionByStatusModel.cs" />
+    <Compile Include="Models\TransactionListRequestModel.cs" />
+    <Compile Include="Models\TransactionListResponse.cs" />
+    <Compile Include="Models\UploadTransactionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +223,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Transaction\UploadTransactionData.cshtml" />
+    <Content Include="Views\Transaction\GetTransactionList.cshtml" />
+    <Content Include="Views\Transaction\_TransactionList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

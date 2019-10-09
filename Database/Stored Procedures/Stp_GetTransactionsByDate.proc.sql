@@ -18,7 +18,8 @@ BEGIN
 	
 	SELECT
 		TransactionIdentificator as ID
-		,CONCAT(Amount,' ', CurrencyCode) AS Payment
+		,Amount 
+		,CurrencyCode 
 		,(CASE 
 			WHEN [Status] = 'Approved' THEN 'A' 
 			WHEN [Status] = 'Failed'	OR [Status] = 'Rejected'	THEN 'R' 

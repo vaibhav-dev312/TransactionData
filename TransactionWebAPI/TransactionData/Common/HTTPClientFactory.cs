@@ -29,6 +29,7 @@ namespace TransactionData.Common
             {
                 client.BaseAddress = new Uri(apiUrl);
                 client.DefaultRequestHeaders.Accept.Clear();
+                client.Timeout = TimeSpan.FromMilliseconds(30 * 1000);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(Constants.MediaType_JSON));
                 var jsonObject = JsonConvert.SerializeObject(model);
                 StringContent content = new StringContent(jsonObject, Encoding.UTF8, Constants.MediaType_JSON);

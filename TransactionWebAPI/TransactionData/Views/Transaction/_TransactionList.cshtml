@@ -1,0 +1,27 @@
+﻿@model TransactionData.Models.TransactionListResponse
+
+<div class="form-group col-md-12">
+    <table class="table table-bordered table-responsive table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Payment</th>
+                <th class="text-center">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model.TransactionList)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Payment</td>
+                        <td>@item.Status</td>
+                    </tr>
+                }
+            }
+        </tbody>
+
+    </table>
+</div>

@@ -1,0 +1,47 @@
+﻿@model TransactionData.Models.UploadTransactionModel
+
+
+@using (Html.BeginForm("UploadTransactionData", "Transaction", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h2><b>Upload Transaction Data</b></h2>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @*<h3 class="col-md-2 text-left">
+                    <b>Browse File</b>
+                </h3>*@
+            <div class="col-md-12">
+                <h4>
+                    @Html.TextBoxFor(model => model.UploadTransactionFile, new { type = "file" })
+                </h4>
+            </div>
+        </div>
+        <div class="col-md-12 form-group">
+            @if (ViewBag.Result == "Unknown format" || ViewBag.Result == "Pleaes select file")
+            {
+                <h4 class="text-capitalize text-left" style="color:red;">@ViewBag.Result </h4>
+            }
+            else
+            {
+                <h4 class="text-capitalize text-left" style="color:green">@ViewBag.Result </h4>
+            }
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="submit" value="Upload" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "Home")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

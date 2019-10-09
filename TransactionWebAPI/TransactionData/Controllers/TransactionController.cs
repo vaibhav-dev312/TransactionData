@@ -1,57 +1,70 @@
-﻿using System;
+﻿
+using Newtonsoft.Json;
+using System.IO;
 using System.Threading.Tasks;
-using System.Web.Http;
-using TransactionData.Models;
+using System.Web.Mvc;
 using TransactionData.Common;
+using TransactionData.Models;
 
 namespace TransactionData.Controllers
 {
-    [RoutePrefix(Constants.TransactionController)]
-    public class TransactionController : ApiController
+    public class TransactionController : Controller
     {
+        public string ErrorMessage { get; set; }
+        public TransactionListResponse transactionList { get; set; }
 
-        /// <summary>
-        /// Get the transation list by currency
-        /// </summary>
-        /// <param name="request"></param>
-        [HttpPost]
-        [Route(Constants.TransactionByCurrency)]
-        public async Task<IHttpActionResult> TransactionListByCurrency([FromBody] TransactionByCurrencyModel request)
+        [HttpGet]
+        public ActionResult UploadTransactionData()
         {
-            try
+            return View();
+        }
+
+        [HttpPost]
+        [Route(Constants.UploadTransaction)]
+        public async Task<ActionResult> UploadTransactionData(UploadTransactionModel request)
+        {
+            if (request.UploadTransactionFile != null)
             {
-                //To Do :  Get the transation list by currency
-                return Ok();
+                if (request.UploadTransactionFile.FileName.ToLower().Contains(Constants.CSV_File_Type) || request.UploadTransactionFile.FileName.ToLower().Contains(Constants.XML_File_Type))
+                {
+                    request.FileName = request.UploadTransactionFile.FileName;
+                    using (var binaryReader = new BinaryReader(request.UploadTransactionFile.InputStream))
+                    {
+                        ViewBag.Result = string.Empty;
+                        request.TransactionFile = binaryReader.ReadBytes(request.UploadTransactionFile.ContentLength);
+                        var response = await HTTPClientFactory.APIPostAsyncJson(Constants.UploadTransactionAPI, request);
+                        if (response == "true")
+                            ViewBag.Result = Constants.UploadFileSuccessMsg;
+                        else
+                            ViewBag.Result = Constants.UploadErrorMsg;
+                    }
+                }
+                else
+                    ViewBag.Result = Constants.UnknownFileErrorMsg;
             }
-            catch (Exception ex)
+            else
+                ViewBag.Result = Constants.SelectFileMsg;
+            return View(request);
+        }
+
+        [HttpGet]
+        public ActionResult GetTransactionList()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route(Constants.TransactionList)]
+        public async Task<ActionResult> GetTransactionList(TransactionListRequestModel request)
+        {
+            if (request != null)
             {
-                return InternalServerError(ex);
+                var response = await HTTPClientFactory.APIPostAsyncJson(Constants.TransactionListAPI, request);
+                request.TransactionList = JsonConvert.DeserializeObject<TransactionListResponse>(response);
             }
-
+            return View(request);
         }
 
-        /// <summary>
-        /// Get the transation list by status
-        /// </summary>
-        /// <param name="request"></param>
-        [HttpPost]
-        [Route(Constants.TransactionByStatus)]
-        public async Task<IHttpActionResult> TransactionListByStatus([FromBody] TransactionByStatusModel request)
-        {
-            //To Do :  Get the transation list by status
-            return Ok();
-        }
 
-        /// <summary>
-        /// Get the transation list by date range
-        /// </summary>
-        /// <param name="request"></param>
-        [HttpPost]
-        [Route(Constants.TransactionByDate)]
-        public async Task<IHttpActionResult> TransactionListByDate([FromBody] TransactionByDateModel request)
-        {
-            //To Do :  Get the transation list by date range
-            return Ok();
-        }
     }
 }

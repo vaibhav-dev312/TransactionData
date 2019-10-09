@@ -1,0 +1,70 @@
+﻿@model TransactionData.Models.TransactionListRequestModel
+
+
+@using (Html.BeginForm("GetTransactionList", "Transaction", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h2><b>Get Transactions List</b></h2>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.TransactionListBy, "Get transaction by", htmlAttributes: new { @class = "col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(
+                     model => model.TransactionListBy,
+                    new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TransactionListBy, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TransactionCurrency, "Currency Code", htmlAttributes: new { @class = "col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TransactionCurrency, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TransactionDateFrom, htmlAttributes: new { @class = "col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TransactionDateFrom, "Transaction Date To", new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.TransactionDateTo, "Transaction Date To", htmlAttributes: new { @class = "col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TransactionDateTo, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TransactionStatus, "Transaction Status", htmlAttributes: new { @class = " col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TransactionStatus, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            @{
+                Html.RenderPartial("_TransactionList",Model.TransactionList);
+            }
+        </div>
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "Home")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
