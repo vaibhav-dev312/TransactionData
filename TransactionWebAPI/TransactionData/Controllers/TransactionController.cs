@@ -1,5 +1,7 @@
 ﻿
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -25,8 +27,14 @@ namespace TransactionData.Controllers
         {
             if (request.UploadTransactionFile != null)
             {
+                if (request.UploadTransactionFile.ContentLength > 1000000)
+                {
+                    ViewBag.Result = Constants.FileSizeExccedErrorMsg;
+                    return View(request);
+                }
                 if (request.UploadTransactionFile.FileName.ToLower().Contains(Constants.CSV_File_Type) || request.UploadTransactionFile.FileName.ToLower().Contains(Constants.XML_File_Type))
                 {
+                    
                     request.FileName = request.UploadTransactionFile.FileName;
                     using (var binaryReader = new BinaryReader(request.UploadTransactionFile.InputStream))
                     {
@@ -50,7 +58,10 @@ namespace TransactionData.Controllers
         [HttpGet]
         public ActionResult GetTransactionList()
         {
-            return View();
+            var requestModel = new TransactionListRequestModel();
+            requestModel.TransactionList = new TransactionListResponse();
+            requestModel.TransactionList.TransactionList = new List<Transactions>();
+            return View(requestModel);
         }
 
         [HttpPost]
@@ -59,6 +70,7 @@ namespace TransactionData.Controllers
         {
             if (request != null)
             {
+                request.TransactionBy = Enum.GetName(typeof(TransactionEnum), request.TransactionListBy); ;
                 var response = await HTTPClientFactory.APIPostAsyncJson(Constants.TransactionListAPI, request);
                 request.TransactionList = JsonConvert.DeserializeObject<TransactionListResponse>(response);
             }

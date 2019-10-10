@@ -10,13 +10,15 @@ namespace TransactionData.Models
         public string TransactionCurrency { get; set; }
 
         [JsonProperty(PropertyName = "transactionDateFrom")]
-        public string TransactionDateFrom { get; set; }
+        public DateTime? TransactionDateFrom { get; set; } = null;
 
         [JsonProperty(PropertyName = "transactionDateTo")]
-        public string TransactionDateTo { get; set; }
+        public DateTime? TransactionDateTo { get; set; } = null;
 
         [JsonProperty(PropertyName = "transactionStatus")]
         public string TransactionStatus { get; set; }
+
+        public string TransactionBy { get; set; }
 
         [IgnoreDataMember]
         [JsonIgnore]
@@ -30,8 +32,8 @@ namespace TransactionData.Models
 
     public enum TransactionEnum
     {
-        ByCurrency,
-        ByTransactionDate,
-        ByStatus
+        Currency,
+        TransactionDate,
+        Status
     }
 }

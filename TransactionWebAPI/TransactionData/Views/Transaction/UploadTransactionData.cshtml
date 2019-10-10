@@ -1,4 +1,5 @@
-﻿@model TransactionData.Models.UploadTransactionModel
+﻿@using TransactionData.Common
+@model TransactionData.Models.UploadTransactionModel
 
 
 @using (Html.BeginForm("UploadTransactionData", "Transaction", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -11,9 +12,6 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            @*<h3 class="col-md-2 text-left">
-                    <b>Browse File</b>
-                </h3>*@
             <div class="col-md-12">
                 <h4>
                     @Html.TextBoxFor(model => model.UploadTransactionFile, new { type = "file" })
@@ -21,14 +19,15 @@
             </div>
         </div>
         <div class="col-md-12 form-group">
-            @if (ViewBag.Result == "Unknown format" || ViewBag.Result == "Pleaes select file")
+            @if (ViewBag.Result == Constants.UnknownFileErrorMsg || ViewBag.Result == Constants.SelectFileMsg || ViewBag.Result == Constants.FileSizeExccedErrorMsg)
             {
-                <h4 class="text-capitalize text-left" style="color:red;">@ViewBag.Result </h4>
+                <h4 class="text-left" style="color:red;">@ViewBag.Result </h4>
             }
             else
             {
-                <h4 class="text-capitalize text-left" style="color:green">@ViewBag.Result </h4>
+                <h4 class="text-left" style="color:green">@ViewBag.Result </h4>
             }
+
         </div>
         <div class="form-group">
             <div class="col-md-10">
@@ -44,4 +43,6 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
 }
+

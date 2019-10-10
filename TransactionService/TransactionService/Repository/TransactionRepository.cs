@@ -17,10 +17,10 @@ namespace TransactionService.Repository
             this.dbContext = _dbContext;
         }
 
-        public TransactionListResponse GetTransactionList(DateTime? transactionDateFrom, DateTime? transactionDateTo, string transactionStatus = null, string transactionCurrency = null)
+        public TransactionListResponse GetTransactionList(DateTime? transactionDateFrom, DateTime? transactionDateTo, string transactionStatus = null, string transactionCurrency = null, string selectTransactionBy = null)
         {
            
-            if (transactionDateFrom != null && transactionDateTo != null)
+            if (transactionDateFrom != null && transactionDateTo != null && selectTransactionBy == Constants.TransactionByDate)
             {
                 var transactionByDateResponse = dbContext.Stp_GetTransactionsByDate(transactionDateFrom, transactionDateTo).ToList();
 
@@ -34,7 +34,7 @@ namespace TransactionService.Repository
                     }).ToList()
                 };
             }
-            else if (transactionCurrency != null)
+            else if (transactionCurrency != null && selectTransactionBy == Constants.TransactionByCurrency)
             {
                 var transactionByCurrencyResponse = dbContext.Stp_GetTransactionsByCurrency(transactionCurrency).ToList();
 
@@ -48,7 +48,7 @@ namespace TransactionService.Repository
                     }).ToList()
                 };
             }
-            else
+            else if(transactionStatus != null && selectTransactionBy == Constants.TransactionByStatus)
             {
                 var transactionByStatusResponse = dbContext.Stp_GetTransactionsByStatus(transactionStatus).ToList();
 
@@ -61,6 +61,10 @@ namespace TransactionService.Repository
                         Status = item.Status
                     }).ToList()
                 };
+            }
+            else
+            {
+                return new TransactionListResponse();
             }
 
             

@@ -32,7 +32,7 @@ namespace TransactionAPI.Controllers
         {
             try
             {
-                var response = this.TransactionRepository.GetTransactionList(transactionListModel.TransactionDateFrom, transactionListModel.TransactionDateTo, transactionListModel.TransactionStatus, transactionListModel.TransactionCurrency);
+                var response = this.TransactionRepository.GetTransactionList(transactionListModel.TransactionDateFrom, transactionListModel.TransactionDateTo, transactionListModel.TransactionStatus, transactionListModel.TransactionCurrency, transactionListModel.TransactionBy);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -53,7 +53,6 @@ namespace TransactionAPI.Controllers
         {
             try
             {
-                logger.Error(request);
                 DataTable table = new DataTable();
                 table.Columns.Add(Constants.TransactionIdentificator, typeof(string));
                 table.Columns.Add(Constants.Amount, typeof(decimal));

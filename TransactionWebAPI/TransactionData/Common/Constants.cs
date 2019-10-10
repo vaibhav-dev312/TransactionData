@@ -34,5 +34,6 @@ namespace TransactionData.Common
         public const string UploadErrorMsg = "An error occured during file upload.";
         public const string UnknownFileErrorMsg = "Unknown format";
         public const string UploadFileSuccessMsg = "File uploaded successfully.";
+        public const string FileSizeExccedErrorMsg = "Please select file having size upto 1 MB";
     }
 }
